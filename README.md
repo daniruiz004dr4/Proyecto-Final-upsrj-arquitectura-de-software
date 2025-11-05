@@ -4,4 +4,7 @@
 | Subject         | Software Architectures                  |
 |-----------------|-----------------------------------------|
 | Title           | Final Project                           |
-| Owner           | [Jesus Salvador Lopez Ortega](mailto:jlopez@upsrj.edu.mx) |
+| Owner           | [Daniel Ruiz Trejo](mailto:023000752@upsrj.edu.mx) |
+
+## Dployment UML diagram
+![diagrama-uml](docs/img/lsb_release%20-a.png)
