@@ -2,109 +2,178 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Binary Upload</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary File Upload - Modern Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
+        * { box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background: #1a1a1a;
-            color: #ffffff;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ff1744 75%, #d500f9 100%);
+            color: #fff;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            overflow-x: hidden;
+            position: relative;
         }
+
+        /* Fondo animado */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(255,107,53,0.4) 0%, transparent 40%),
+                        radial-gradient(circle at 70% 80%, rgba(247,147,30,0.3) 0%, transparent 40%),
+                        radial-gradient(circle at 20% 70%, rgba(255,23,68,0.3) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 30%, rgba(213,0,249,0.4) 0%, transparent 40%);
+            animation: rotate 20s linear infinite;
+        }
+        @keyframes rotate { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
+
         .form-container {
-            background: #2d2d2d;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(25px);
+            padding: 3rem;
+            border-radius: 25px;
             width: 100%;
-            max-width: 400px;
-            margin: 20px;
+            max-width: 450px;
+            z-index: 10;
+            position: relative;
         }
+
         h2 {
-            color: #00ff9d;
-            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, #ffeb3b 50%, #ff9800 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-align: center;
-            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
         }
-        label {
-            color: #cccccc;
-            display: block;
-            margin-bottom: 0.5rem;
+
+        label { font-weight: 600; display: block; margin-bottom: 0.6rem; }
+
+        /* Botón personalizado para archivo */
+        .file-upload-wrapper {
+            position: relative;
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+
+        .file-upload-button {
+            background: linear-gradient(135deg, #ff6b35, #ff1744);
+            padding: 16px;
+            width: 100%;
+            border-radius: 15px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            color: white;
+        }
+
+        .file-upload-wrapper input[type="file"] {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        #fileNameDisplay {
+            margin-top: 10px;
+            color: #ffeb3b;
             font-size: 0.9rem;
         }
-        input[type="file"] {
-            background: #3d3d3d;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #4d4d4d;
-            color: #ffffff;
+
+        select, button {
+            padding: 16px;
             width: 100%;
-            margin-bottom: 1rem;
-            cursor: pointer;
-        }
-        select {
-            width: 100%;
-            padding: 10px;
-            background: #3d3d3d;
-            border: 1px solid #4d4d4d;
-            border-radius: 5px;
-            color: #ffffff;
-            margin-bottom: 1.5rem;
-            cursor: pointer;
-            appearance: none;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #00ff9d;
-            color: #1a1a1a;
+            margin-top: 10px;
+            border-radius: 15px;
             border: none;
-            border-radius: 5px;
-            font-weight: bold;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff6b35, #f7931e, #ff1744);
+            color: #fff;
+            font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            margin-top: 20px;
         }
-        button:hover {
-            background: #00cc7d;
+
+        /* Tabla de archivos */
+        .file-list-container {
+            margin-top: 50px;
+            width: 90%;
+            max-width: 1100px;
+            background: rgba(255,255,255,0.10);
+            backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 20px;
+            color: white;
+            z-index: 10;
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+
+        th {
+            background: rgba(255,255,255,0.1);
+            padding: 12px;
+            text-align: left;
+            color: #ffeb3b;
+            font-weight: 700;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+
+        tr:hover { background: rgba(255,255,255,0.15); }
+
+        /* Popup */
         .popup {
             display: none;
-            background-color: #00ff9d;
-            color: #1a1a1a;
-            padding: 15px 25px;
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
             position: fixed;
-            top: 20px;
-            right: 20px;
-            border-radius: 5px;
-            z-index: 1000;
-            font-weight: 500;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            animation: slideIn 0.3s ease-out;
-        }
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            padding: 18px 30px;
+            border-radius: 12px;
+            top: 30px;
+            right: 30px;
+            color: white;
+            font-weight: bold;
+            z-index: 2000;
         }
     </style>
 </head>
+
 <body>
+
+    <!-- FORMULARIO -->
     <div class="form-container">
         <h2>Binary File Upload</h2>
-        <form id="uploadForm" enctype="multipart/form-data">
-            <label for="file">Select File to Upload</label>
-            <input type="file" id="file" name="file" required>
 
-            <label for="environment">Target Environment</label>
+        <form id="uploadForm" enctype="multipart/form-data">
+
+            <label>Select File to Upload</label>
+            <div class="file-upload-wrapper">
+                <button class="file-upload-button" type="button">Browse File</button>
+                <input type="file" id="file" name="file" required>
+                <div id="fileNameDisplay"></div>
+            </div>
+
+            <label>Target Environment</label>
             <select id="environment" name="environment">
                 <option value="dev">Development</option>
                 <option value="prod">Production</option>
@@ -114,36 +183,87 @@
         </form>
     </div>
 
+    <!-- TABLA DE ARCHIVOS -->
+    <div class="file-list-container">
+        <h2>Uploaded Files</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Filename</th>
+                    <th>Environment</th>
+                    <th>Status</th>
+                    <th>Uploaded At</th>
+                </tr>
+            </thead>
+            <tbody id="filesTableBody">
+                <!-- JavaScript agregará filas aquí -->
+            </tbody>
+        </table>
+    </div>
+
     <div id="popup" class="popup">✓ File Successfully Uploaded</div>
 
     <script>
-        const form = document.getElementById('uploadForm');
-        const popup = document.getElementById('popup');
+        const fileInput = document.getElementById("file");
+        const fileNameDisplay = document.getElementById("fileNameDisplay");
 
-        form.addEventListener('submit', async (e) => {
+        fileInput.addEventListener("change", () => {
+            const file = fileInput.files[0];
+            fileNameDisplay.textContent = file ? `Selected file: ${file.name}` : "";
+        });
+
+        const form = document.getElementById("uploadForm");
+        const popup = document.getElementById("popup");
+        const tableBody = document.getElementById("filesTableBody");
+
+        form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
             const formData = new FormData(form);
 
             try {
-                const response = await fetch('/upload', {
-                    method: 'POST',
+                const response = await fetch("/upload", {
+                    method: "POST",
                     body: formData
                 });
 
-                if (response.ok) {
-                    const result = await response.json();
-                    popup.textContent = "File Successfully Uploaded";
-                    popup.style.display = 'block';
-                    setTimeout(() => popup.style.display = 'none', 3000);
-                } else {
-                    alert("Upload failed.");
+                if (!response.ok) {
+                    popup.textContent = "❌ Upload failed";
+                    popup.style.display = "block";
+                    setTimeout(() => popup.style.display = "none", 3000);
+                    return;
                 }
+
+                const file = await response.json();
+
+                popup.textContent = "✓ File Successfully Uploaded";
+                popup.style.display = "block";
+                setTimeout(() => popup.style.display = "none", 3000);
+
+                const newRow = document.createElement("tr");
+
+                newRow.innerHTML = `
+                    <td>${file.id}</td>
+                    <td>${file.filename}</td>
+                    <td>${file.environment}</td>
+                    <td>${file.status}</td>
+                    <td>${file.uploaded_at}</td>
+                `;
+
+                tableBody.appendChild(newRow);
+
+                form.reset();
+                fileNameDisplay.textContent = "";
+
             } catch (error) {
-                console.error("Error uploading file:", error);
-                alert("Error uploading file.");
+                popup.textContent = "❌ Error uploading file";
+                popup.style.display = "block";
+                setTimeout(() => popup.style.display = "none", 3000);
             }
         });
     </script>
+
 </body>
 </html>
