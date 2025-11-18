@@ -21,4 +21,4 @@ if __name__ == "__main__":
     # Run on all interfaces so it's accessible in containers; port taken from common vars
     app.run(host="0.0.0.0", port=HOME_HOST)
     
-#transformar dev 8# y agregar descripcion
+# Application entry point: starts Flask app and registers routes.
