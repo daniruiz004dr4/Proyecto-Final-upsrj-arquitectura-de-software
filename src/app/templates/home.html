@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Firma Digital - Modern UI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ff1744 75%, #d500f9 100%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* FONDO ANIMADO */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(255, 107, 53, 0.4) 0%, transparent 40%),
+                radial-gradient(circle at 70% 80%, rgba(247, 147, 30, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 20% 70%, rgba(255, 23, 68, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 80% 30%, rgba(213, 0, 249, 0.4) 0%, transparent 40%);
+            animation: rotate 20s linear infinite;
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            top: 10%;
+            right: 10%;
+            filter: blur(90px);
+            animation: pulse 5s ease-in-out infinite alternate;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); opacity: 0.3; }
+            to { transform: scale(1.3); opacity: 0.6; }
+        }
+
+        /* TITULOS */
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-align: center;
+            background: linear-gradient(135deg, #fff 0%, #ffeb3b 40%, #ff9800 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 0 0 45px rgba(255, 255, 255, 0.4);
+        }
+
+        .subtitle {
+            margin-bottom: 30px;
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        /* FORMULARIO MODERNO */
+        .upload-wrapper {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 2.8rem;
+            border-radius: 25px;
+            backdrop-filter: blur(25px);
+            max-width: 450px;
+            width: 100%;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.35),
+                0 0 0 1px rgba(255,255,255,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.4);
+            margin-bottom: 50px;
+        }
+
+        label {
+            margin-bottom: 10px;
+            display: block;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        input[type="file"], select {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 16px;
+            width: 100%;
+            border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.25);
+            margin-bottom: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s ease;
+        }
+
+        input[type="file"]:hover, select:hover {
+            background: rgba(255,255,255,0.25);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-3px);
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff6b35, #f7931e, #ff1744);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: rgba(255,255,255,0.3);
+            transition: left 0.5s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #ff1744, #d500f9, #ff6b35);
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        button:hover::before { left: 100%; }
+
+        /* TABLA MODERNA */
+        table {
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        th {
+            background: rgba(0,0,0,0.35);
+            padding: 12px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+        }
+
+        tr:hover td {
+            background: rgba(255,255,255,0.07);
+        }
+
+        .status.signed {
+            color: #8bc34a;
+            font-weight: bold;
+        }
+
+        .status.pending {
+            color: #ffeb3b;
+            font-weight: bold;
+        }
+
+        .download-link {
+            color: #ffeb3b;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* POPUP */
+        #popup {
+            display: none;
+            position: fixed;
+            right: 30px;
+            top: 30px;
+            background: linear-gradient(135deg, #4caf50, #8bc34a, #cddc39);
+            padding: 20px 30px;
+            border-radius: 15px;
+            color: white;
+            font-weight: 700;
+            animation: popupSlide 0.6s;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.3);
+            z-index: 999;
+        }
+
+        @keyframes popupSlide {
+            0% { transform: translateX(120%) scale(0.7); opacity: 0; }
+            100% { transform: translateX(0) scale(1); opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Sistema de Firma Digital</h1>
+    <p class="subtitle">Sube, revisa y firma tus archivos de forma segura</p>
+
+    <div class="upload-wrapper">
+        <form id="uploadForm">
+            <label for="file">Seleccionar Archivo:</label>
+            <input type="file" id="file" name="file" required>
+            <small id="fileNameDisplay"></small>
+
+            <label for="environment">Entorno de Destino</label>
+            <select id="environment" name="environment">
+                <option value="dev">Desarrollo (Firma Automática)</option>
+                <option value="prod">Producción (Requiere Aprobación)</option>
+            </select>
+
+            <button type="submit">Subir y Procesar</button>
+        </form>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Archivo</th>
+                <th>Entorno</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                <th>Acción</th>
+                <th>Firma</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div id="popup"></div>
+
+<script>
+/* --- JS ORIGINAL CONSERVADO --- */
+
+const fileInput = document.getElementById('file');
+const fileNameDisplay = document.getElementById('fileNameDisplay');
+const form = document.getElementById('uploadForm');
+const popup = document.getElementById('popup');
+const tableBody = document.querySelector('table tbody');
+
+document.addEventListener('DOMContentLoaded', loadFiles);
+
+async function loadFiles() {
+    try {
+        const response = await fetch('/files');
+        if (response.ok) {
+            const files = await response.json();
+            tableBody.innerHTML = '';
+            files.reverse().forEach(addRowToTable);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function addRowToTable(file) {
+    const row = document.createElement('tr');
+
+    const shortId = file.id ? file.id.substring(0, 8) + '...' : '???';
+    const shortSig = file.signature ? file.signature.substring(0, 10) + '...' : '—';
+
+    let dateStr = file.uploaded_at || file.uploaded_date || '—';
+    if (dateStr.includes('T')) dateStr = dateStr.split('T')[0];
+
+    let actionHtml = '—';
+    if (file.signed_path) {
+        actionHtml = `<a href="#" class="download-link" onclick="alert('Ruta: ${file.signed_path}')">Ver</a>`;
+    }
+
+    row.innerHTML = `
+        <td>${shortId}</td>
+        <td>${file.filename}</td>
+        <td>${file.environment}</td>
+        <td class="status ${file.status}">${file.status}</td>
+        <td>${dateStr}</td>
+        <td>${actionHtml}</td>
+        <td>${shortSig}</td>
+    `;
+
+    tableBody.appendChild(row);
+}
+
+fileInput.addEventListener('change', () => {
+    const name = fileInput.files.length ? fileInput.files[0].name : '';
+    fileNameDisplay.textContent = name ? `Archivo seleccionado: ${name}` : '';
+});
+
+form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const submitBtn = form.querySelector('button');
+    const environment = document.getElementById('environment').value;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Procesando...";
+
+    try {
+        const uploadResponse = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!uploadResponse.ok) throw new Error("Falló la subida");
+        const file = await uploadResponse.json();
+
+        let signed = file;
+
+        if (environment !== "prod") {
+            const signResponse = await fetch('/sign', {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ file_id: file.id })
+            });
+
+            if (!signResponse.ok) throw new Error("Falló la firma");
+            signed = await signResponse.json();
+        }
+
+        popup.textContent = signed.status === "signed" 
+            ? "✔ Archivo subido y firmado"
+            : "Archivo subido. Requiere aprobación";
+
+        popup.style.display = "block";
+        setTimeout(() => popup.style.display = "none", 3500);
+
+        loadFiles();
+        form.reset();
+        fileNameDisplay.textContent = '';
+
+    } catch (err) {
+        popup.style.background = "linear-gradient(135deg, #f44336, #d32f2f)";
+        popup.textContent = "❌ Error: " + err.message;
+        popup.style.display = "block";
+        setTimeout(() => {
+            popup.style.display = "none";
+            popup.style.background = "linear-gradient(135deg, #4caf50, #8bc34a, #cddc39)";
+        }, 3500);
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Subir y Procesar";
+});
+</script>
+
+</body>
+</html>
